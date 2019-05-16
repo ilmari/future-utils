@@ -13,6 +13,7 @@ use with_timeout::WithTimeout;
 use first_ok2::FirstOk2;
 use while_driving::WhileDriving;
 use resume_unwind::ResumeUnwind;
+use and_then_while::AndThenWhile;
 use BoxFuture;
 use BoxSendFuture;
 
@@ -109,6 +110,16 @@ pub trait FutureExt: Future + Sized {
         Self: Future<Error=Box<Any + Send + 'static>>,
     {
         ResumeUnwind::new(self)
+    }
+
+    /// Like repeatedly calling `.and_then(func)` as long as `pred` returns `true`
+    fn and_then_while<P, F>(self, pred: P, func: F) -> AndThenWhile<Self, P, F>
+    where
+        P: FnMut(&Self::Item) -> bool,
+        F: FnMut(Self::Item) -> Self,
+        Self: Sized,
+    {
+        AndThenWhile::new(self, pred, func)
     }
 }
 

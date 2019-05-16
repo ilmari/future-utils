@@ -31,6 +31,7 @@ mod with_readiness_timeout;
 pub mod bi_channel;
 pub mod mpsc;
 mod framed_unbuffered;
+mod and_then_while;
 
 pub use drop_notify::{drop_notify, DropNotify, DropNotice};
 pub use until::Until;
@@ -50,6 +51,7 @@ pub use first_ok2::FirstOk2;
 pub use while_driving::{WhileDriving, Finish, FinishInner};
 pub use resume_unwind::ResumeUnwind;
 pub use framed_unbuffered::FramedUnbuffered;
+pub use and_then_while::AndThenWhile;
 
 pub type BoxFuture<T, E> = Box<Future<Item=T, Error=E>>;
 pub type BoxStream<T, E> = Box<Stream<Item=T, Error=E>>;
